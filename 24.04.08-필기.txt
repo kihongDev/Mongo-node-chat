@@ -1,0 +1,87 @@
+1. 게시물 클릭 -> 챗팅하기 요청 - > 챗팅방 하나 개설
+- api : /chat/request
+
+- 핵심 db 조회 구문 
+- db.collection(' ').inserOne()
+
+2. 전체 나의 챗팅 목록 보여주는 페이지
+- api :  /chat/list
+- view :  chatList.ejs
+
+- db.collection(' ').find().toArray()
+
+3. 목록 클릭-> 챗팅방 상세페이지 
+- api :  /chat/detail/:id
+- view :  chatDetail.ejs
+
+챗팅방 찾기 : db.collection(' ').findOne()
+챗팅내용 찾기 : db.collection(' ').find().toArray()
+
+4. 메시지 주고받는 코드 작성
+
+* socket.io 설치
+1) 터미널 : npm install socket.io@4
+
+2) 서버상단 추가
+const { createServer } = require('http')
+const { Server } = require('socket.io')
+const server = createServer(app)
+const io = new Server(server) 
+
+3) 변경하기
+app.listen(생략) -> server.listen(생략)
+
+4) 클라이언트 파일에 - 라이브러리 추가 (설치)
+<script src="https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
+<script>  // 여기에 코드 짤거임 </script>
+
+
+* 기본문법
+
+1) 접속 셋팅
+* 클라이언트  
+const socket = io() 
+socket.emit('ask-join', '<%= result._id %>')
+
+* 서버
+io.on('connection', (socket)=>{
+	// 서버코드 작성
+})
+
+2) 클라이언트-> 서버
+클 : socket.emit('key', '전송할 값' ) })
+
+서 : socket.on('('key',  async(data)=>{
+	// 처리 구문 작성
+       })
+
+
+2) 서버 -> 클라이언트
+서 : io.to(방번호).emit('key', '전송할 값')
+클 : socket.on('key', (data) => {
+	// 처리할 내용
+})
+
+
+작동순서
+a. 일단 채팅방 상세페이지 들어가면 그 유저를 room에 넣어줌
+b. 유저가 글적고 전송버튼누르면 서버에게 이 메세지를 특정 room에 전송해달라고 부탁
+c. 서버는 그 메세지를 받으면 그 room에만 메세지를 뿌리기
+d. 유저는 서버가 뿌리는 메세지를 받으면 그걸 html로 만들어서 페이지에 보여주기
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

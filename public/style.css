@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@font-face {
+  font-family: 'JalnanGothic';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_231029@1.1/JalnanGothic.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+*{margin: 0; padding: 0; box-sizing: border-box;}
+a{text-decoration: none; color: #333;}
+
+body{background-color: #333; font-family: 'Pretendard-Regular';}
+
+
+
+
+.header{padding: 0 40px; }
+.header a{color: #fff;}
+.header .inner{
+  height: 80px; 
+  padding-top: 60px;
+  display: flex;
+  align-items: center; /* 현재요소의 높이 안에서 세로 가운데정렬*/
+  justify-content: space-between;
+}
+
+.header .utils a {margin-left: 30px;font-size: 18px; font-family: 'Pretendard-Regular';}
+.header nav ul{font-size: 24px; font-family: 'JalnanGothic'; padding: 0 20px; display: flex;}
+
+
+.header .gnb-wrap .gnb li a{position: relative; padding: 6px 12px;}
+  .header .gnb-wrap .gnb li a::after{
+    content: '';
+    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 0;
+    height: 4px;
+    background:#ddd;
+    transition: all .3s ease-out;
+  }
+
+  .header .gnb-wrap .gnb li a:hover::after{
+    width: 100%;
+  }
+
+
+
+
+
+
+
+.sec{ padding: 40px 40px 120px}
+.sec h2{
+  margin: 0 0 60px;
+  text-align: center;
+  color: #ddd;
+}
+.white-bg{
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.list-box{
+  padding: 15px 0;
+  border-bottom: 1px dotted grey;
+}
+.list-box:last-of-type{border : 0}
+
+input,div {
+  box-sizing: border-box;
+}
+.form-box {
+  background : white;
+  padding : 25px;
+  margin: 20px;
+  border-radius: 8px;
+}
+.form-box input {
+  padding : 10px;
+  font-size: 16px;
+  width: 100%;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.form-box button {
+  padding: 10px;
+  border : none;
+  background : lightgrey;
+  border-radius: 5px;
+}
+
+.writer{color: #aaa;}
+.writer.login{color: deeppink;}
+
+
+.chat-screen { width: 100%; }
+.chat-box { margin-top: 15px; display: flex; }
+.chat-box span { padding: 10px; background: #eee; }
+.mine { justify-content: end; }
+.chat-input {
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 5px;
+}
+.chat-button {
+  padding: 10px;
+  border : none;
+  background : lightgrey;
+  border-radius: 5px;
+}
+
+.white-bg .btn-edit-edl{
+  display: flex;
+  justify-content: left;
+}
+
+
+
+
+
+.dropdown-label{
+  font-size : 12px;
+  margin : 10px;
+  font-weight : bold;
+  color : rgb(50, 50, 50);
+}
+
+.dropdown{
+  position : relative;
+  display : inline-block;
+}
+
+.dropbtn_icon{
+  font-family : 'Material Icons';
+}
+.dropbtn{
+  display : block;
+  border : 2px solid rgb(94, 94, 94);
+  border-radius : 4px;
+  background-color: #fcfcfc;
+  font-weight: 400;
+  color : rgb(124, 124, 124);
+  padding : 12px;
+  width :240px;
+  text-align: left;
+  cursor : pointer;
+  font-size : 12px;
+  z-index :1;
+  position : relative;
+}
+.dropdown-content{
+  display : none;
+  font-weight: 400;
+  background-color: #fcfcfc;
+  min-width : 240px;
+  border-radius: 8px;
+  height : 160px;
+  overflow : scroll;
+  box-shadow: 0px 0px 10px 3px rgba(190, 190, 190, 0.6);
+}
+.dropdown-content::-webkit-scrollbar{
+  width : 5px;
+  height : 10px;
+}
+.dropdown-content::-webkit-scrollbar-thumb{
+  border-radius : 2px;
+  background-color :rgb(194, 194, 194)
+}
+
+.dropdown-content div{
+  display : block;
+  text-decoration : none;
+  color : rgb(37, 37, 37);
+  font-size: 12px;
+  padding : 12px 20px;
+}
+.dropdown-content div:hover{
+  background-color: rgb(226, 226, 226);
+}
+
+.dropdown-content.show{
+  display : block;
+}
+
+.utils{
+  display: flex;
+}

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>list</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="/style.css">
+
+</head>
+<body>
+  
+  <%- include('nav.ejs') %>
+  <section class="sec">
+    <p style="color: #ddd;">현재 : <%= loginUser %></p>
+    <h2> 글 목록 </h2>
+
+    <div class="white-bg">
+      <% if ( list.length == 0 ) {%>
+        <p> 새로운 글을 작성해주세요. 👉 <a href="/add" style="list-style:underline">글쓰기</a></p>
+      <% } else { %>
+
+      <% for(let i = 0; i < list.length; i++) { %>
+        <% let checkLogin = loginUser == list[i].userid %>
+        <% let className = (checkLogin)? 'writer login' : 'writer' %>
+        
+        <div class="list-box row d-flex">
+          <a href="/detail/<%= list[i]._id %>">
+            <h3><%= list[i].title %></h3>
+            <p class="<%= className %>"><%= list[i].userid %></p>
+          </a>
+        <% if(checkLogin) { %>
+          <div class="btn-edit-del">
+            <a href="/edit/<%= list[i]._id %>">✏️</a>
+            <a href="/delete/<%= list[i]._id %>" class="delete" data-id="<%= list[i]._id %>" >🗑️</a>
+          </div>
+        <% } %> 
+          
+        </div>
+
+      <% } } %>
+      <div class="row utils d-flex">
+        <form id="searchForm" class="col-5" action="/list" method="get">
+          <input name="title" type="text" id="searchQuery" class="col" placeholder="검색...">
+          <button type="submit" class="col-2 btn btn-success">검색</button>
+        </form>
+      
+     
+      <div class="dropdown">
+        <button class="dropbtn">
+          <span class="dropbtn_icon">more_horiz</span>
+          <span class="dropbtn_content">Select a menu...</span>
+          <span class="dropbtn_click" style="font-family: Material Icons; font-size : 16px; color : #3b3b3b; float:right;"
+            onclick="dropdown()">arrow_drop_down</span>
+        </button>
+        <div class="dropdown-content">
+          <div class="fastfood" onclick="showMenu(this.innerText)">제목</div>
+          <div class="fastfood" onclick="showMenu(this.innerText)">작성자</div>
+        </div>
+      </div>
+  
+  </div>
+
+</div>
+</section>
+
+  <script>
+    const BASE_URL = 'http://localhost:3000'
+    const del = document.querySelectorAll('.delete');
+
+    del.forEach((el, i)=>{
+
+      el.addEventListener('click', async function(e){
+          
+        e.preventDefault();
+        const id = e.target.dataset.id
+
+        // 새로고침을 안하고 동작
+        const response = await fetch(`${BASE_URL}/delete/${id}`, {
+          method: 'DELETE',
+        });
+        console.log(response)
+        e.target.parentElement.parentElement.style.display = 'none'
+      })
+    })
+
+
+
+    window.onload=()=>{
+      document.querySelector('.dropbtn_click').onclick = ()=>{
+        dropdown();
+      }
+      document.getElementsByClassName('fastfood').onclick = ()=>{
+        showMenu(value);
+      };
+      dropdown = () => {
+        var v = document.querySelector('.dropdown-content');
+        var dropbtn = document.querySelector('.dropbtn')
+        v.classList.toggle('show');
+        dropbtn.style.borderColor = 'rgb(94, 94, 94)';
+      }
+
+      showMenu=(value)=>{
+        var dropbtn_icon = document.querySelector('.dropbtn_icon');
+        var dropbtn_content = document.querySelector('.dropbtn_content');
+        var dropbtn_click = document.querySelector('.dropbtn_click');
+        var dropbtn = document.querySelector('.dropbtn');
+
+        dropbtn_icon.innerText = '';
+        dropbtn_content.innerText = value;
+        dropbtn_content.style.color = '#252525';
+        dropbtn.style.borderColor = '#3992a8';
+      }
+    }
+    window.onclick= (e)=>{
+      if(!e.target.matches('.dropbtn_click')){
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+
+        var dropbtn_icon = document.querySelector('.dropbtn_icon');
+        var dropbtn_content = document.querySelector('.dropbtn_content');
+        var dropbtn_click = document.querySelector('.dropbtn_click');
+        var dropbtn = document.querySelector('.dropbtn');
+
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    }
+  </script>
+
+</body>
+</html>

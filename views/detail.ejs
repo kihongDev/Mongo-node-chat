@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <%- include('nav.ejs') %>
+  <section class="sec">
+    <div class="white-bg">
+      <div class="list-box">
+        <p class="writer" style="margin-bottom: 20px;">작성자 : <%= result.userid %>
+          <a href="/chat/request?writerId=<%= result._id %>">채팅하기</a>
+      <!-- wrtieId : 작성자 id,
+          result._id : 현재 로그인한 사용자 아이디
+      -->
+      
+
+          <% let checkLogin = loginUser == result.userid %>
+          <% if(checkLogin) { %>
+            <span class="btn">
+              <a href="/edit/<%= result._id %>">✏️</a>
+              <a href="/delete/<%= result._id %>" class="delete" data-id="<%= result._id %>">🗑️</a>
+            </span>
+          <% } %>
+        </p>
+
+        <h2 style="color: #000; font-size: 38px;" ><%= result.title %></h2>
+        
+        <p style="display: flex; justify-content: center;"><%= result.content  %></p>
+      </div>
+
+      <!-- parentId : 게시글번호 (post컬렉션의 _id)-->
+      <div class="comment-write">
+        <form action="/comment" method="POST">
+          <label for="commentContent"><%= loginUser %> </label>
+          <input name="content" id="commentContent">
+          <input name="parentId" value="<%= result._id %>" type="hidden">
+          <button>댓글작성</button>
+        </form>
+      </div>
+
+      <!-- 댓글목록 -->
+      <div class="comment-list">
+          <% for(let i = 0; i < comment.length; i++){ %>
+            <p>
+              <span><%= comment[i].writer %> </span>
+              <span><%= comment[i].content %></span>
+            </p>
+          <% } %>
+      </div>
+    </div>
+  </section>
+  <script>
+    const BASE_URL = 'http://localhost:3000';  
+    const del = document.querySelector('.delete')
+    del.addEventListener('click',async function(event){
+      event.preventDefault();
+      const isConfirmed = confirm('삭제하시겠습니까?');
+    if (isConfirmed) {
+    // 사용자가 확인을 눌렀을 경우
+    const postId = event.target.dataset.id; // 삭제할 게시글의 ID를 가져옵니다.
+      const response = await fetch(`${BASE_URL}/delete/${postId}`,{
+        method : 'DELETE'
+      })
+      window.location.href ="/list"
+      console.log(response)
+    }
+  })
+  </script>
+</body>
+</html>

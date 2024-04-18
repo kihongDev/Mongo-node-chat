@@ -1,0 +1,51 @@
+###
+POST http://localhost:3000/add
+Content-Type: application/json
+
+{
+    "title" : "코스모스",
+    "content" : "칼세이건"
+}
+
+
+###
+GET http://localhost:3000/detail/660cbdc6ba84377a71134d9e
+
+###
+PUT http://localhost:3000/edit/660cbdc6ba84377a71134d9e
+Content-Type: application/json
+
+{
+    "title" : "인간실격",
+    "content" : "다자이 오사무"
+}
+
+###
+DELETE http://localhost:3000/delete/660d03c317b095fd4fec1014
+Content-Type: application/json
+
+
+###
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "userid" : "red",
+    "password" : "1234"
+}
+
+###
+POST http://localhost:3000/join
+Content-Type: application/json
+
+{
+    "userid" : "qwer",
+    "password" : "1234"
+}
+
+###
+GET http://localhost:3000/logout
+
+
+
+

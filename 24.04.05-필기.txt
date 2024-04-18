@@ -1,0 +1,97 @@
+{
+	_id : ObjectId( '~~~'),
+	title :  ,
+	content : ,
+	user_id : 현재 로그인된 유저의 id
+}
+
+정규화  (관계형 데이터 베이스)
+- 서로 주제가 관련없는 데이터는 철저하게 구분지어서 저장하는 것
+- 데이터 정확도 높음. 대신 사용자 많아지만 속도 문제 ( 정보 정확, 입출력 느림)
+
+비정규화 
+- 비관계형 데이터베이스 
+- 유저 이름 - 작성, 
+- 단점 : 데이터, 비정확해질 수 있음. 속도가 빠름. ( 정보 부정확, 입출력 빠름)
+
+
+유저를 3명 정도 추가하고
+각각 2~3개씩 글을 작성
+
+삭제 기능
+
+
+
+
+
+
+1) 채팅버튼 - /chat/request 요청
+
+2) /chat/request 에서
+chatroom 컬렉션에
+- 채팅방용 docuemnt 새로 생성
+
+
+3) /chat/list 접속
+- 내가 참여한 챗팅방 목록을 보여줌 (find 메서드 사용)
+- 파일명 : chatList.ejs
+- 
+
+
+
+## 라이브러리 설치 
+ npm install socket.io@4 
+
+## 상단에 require
+const { createServer } = require('http')
+const { Server } = require('socket.io')
+const server = createServer(app)
+const io = new Server(server) 
+
+## app.listen()
+server.listen() 으로 변경
+
+## 클라이언트 : 웹소켓 통신할 html 파일 </body> 위에다가
+<script src="https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
+<script>
+  const socket = io() 
+</script>
+
+## 서버 : server.js 
+io.on('connection', (socket) => {
+  console.log('websocket 연결됨')
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

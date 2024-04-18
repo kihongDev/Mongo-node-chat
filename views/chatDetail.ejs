@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <%- include('nav.ejs') %>
+
+  <!-- 
+    chatInfo 객체
+    _id : 채팅방의 아이디 (룸번호)
+    member[0] : 현재 로그인 아이디
+    member[1] : 글 작성자 아이디
+
+    chat 객체
+    - 실제적인 메시지
+  -->
+
+  <p style="color: #ddd;">채팅방 아이디 : <%= result._id %></p> 
+  <p style="color: #ddd;">현재 로그인 아이디 : <%= result.member[0] %></p> 
+  <p style="color: #ddd;">글 작성자 아이디 : <%= result.member[1] %></p> 
+  
+  <section class="sec">
+    <div class="detail-bg">
+      <div class="chat-screen">
+        <% for(let i = 0; i < chat.length; i++) { %>
+            <div class="chat-box">
+              <span><%= chat[i].content %></span>
+              <span><%= chat[i].date %></span>
+              <span><%= chat[i].who %></span>
+              
+            </div>
+          <% } %>
+      </div>
+    </div>
+    <div class="chat-form">
+      <input class="chat-input">
+      <button class="chat-button">전송</button>
+</div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
+  <script>
+
+    
+    const socket = io()
+    const sendMsg = document.querySelector('.chat-button')
+    
+    // 서버로 전송
+    socket.emit('ask-join', '<%= result._id %>')
+
+
+    sendMsg.addEventListener('click', ()=>{
+      let msg = document.querySelector('.chat-input').value
+      let date = new Date()
+     
+      socket.emit('message-send', 
+      {
+        room : '<%= result._id %>', 
+        msg,
+        date : date
+      })
+    })
+
+    
+   socket.on('msg-broadcast', (data)=>{
+    
+    document.querySelector('.chat-screen')
+      .insertAdjacentHTML('beforeend', `<div class="chat-box mine"><span>${data.msg}</span><span>${data.date}</span><span>${data.who}</span></div>`)
+   })
+
+  </script>
+
+</body>
+</html>
+
+
+<!-- 
+   // 데이터 전송
+    // socket.emit('데이터이름', '데이터')
+
+    // 서버 : 나 룸에 조인 시켜줘
+    socket.emit('ask-join', '1')
+    
+  
+    socket.on('state', (data)=>{
+      console.log(data)
+    })
+
+    // 서버에 나 00 룸에 메세지 보내고 싶어
+    socket.emit('message', {msg : 'message', room : '2'})
+
+    socket.on('이벤트')
+    ask-join : 서버에 룸 조인 요청
+    message-send : 서버로 송신
+    message-broadcast :  서버로부터 수신
+
+  1. 채팅방 상세페이지 들어가면
+  -> 해당 유저를 room 넣어줌
+  
+  2. 유저가 글을 적고 전송버튼 누르면 서버에게 이 메시지를 특정 room에 전송해달라고 요청
+
+  3. 서버는 그 메세지를 받으면 그 room에만 메세지 뿌리기
+
+  4. 유저는 서버가 뿌리는 메세지를 받으면, 그걸 html 만들어서 페이지에 보여주기
+
+ -->
